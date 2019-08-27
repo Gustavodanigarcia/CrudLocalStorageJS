@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+	<title>Formulario y Tabla</title>
+<link href="css/style.css"
+      rel="stylesheet" type="text/css">
+
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+
+
+
+<!---------------------------------------------------------------------------NAV BAR ------------------------------------------------------------->
+
+
+<!---------------------------------------------------------------------------NAV BAR ---------------------------------------------------------------->
+
+
+
+
+
+
+<!--------------------------------------------------------------------------CONTENIDO----------------------------------------------------------------->
+
+
+<div class="container-fluid ">
+
+<div class="row justify-content-center">
+
+
+<!----------------------------------------------------------------------------FORMULARIO: ------------------------------------------------------------>
+
+
+
+ <div id="form" class="col-sm-3  ">
+
+ <form class="formPersona">
+
+
+  <div id="userDatos" class="form-row">
+
+    <div class="col-md-12 mb-3">
+      <label>Nombre</label>
+       <input type="text" class="form-control" name="nombre" placeholder="Nombre" required>
+      
+    </div>
+
+
+  <div class="col-md-12 mb-3">
+      <label>Apellido</label>
+       <input type="text" class="form-control" name="apellido" placeholder="Apellido" required>
+      
+    </div>
+
+
+    <div class="col-md-12 mb-3">
+      <label for="validationTooltipUsername">Usuario</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><img id="user_logo" src="../Proyecto Web 1/css/recursos/Ml_logo.png"></span>
+        </div>
+   
+        <input type="text" class="form-control" name="usuario" placeholder="Usuario" required>
+       
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+  <div id="userCitydatos" class="form-row">
+    <div class="col-md-6 mb-3">
+      <label for="validationTooltip03">Ciudad</label>
+    <input type="text" class="form-control" name="ciudad" placeholder="Ciudad" required>
+    
+    </div>
+    <div class="col-md-6 mb-3">
+      <label for="validationTooltip04">Provincia</label>
+     <input type="text" class="form-control" name="provincia" placeholder="Provincia" required>
+    </div>
+ 
+  </div>
+
+<div id="formButtons" class="form-row justify-content-end">
+
+    <input class="btn btn-primary mr-2" type="submit" value="Agregar">
+  <input class="btn btn-danger"id="botonDelete" type="reset" value="Borrar">
+    </div>
+</form>
+</div>
+
+
+
+
+<!---------------------------------------------------------------------------- FIN FORMULARIO: ------------------------------------------------------------>
+
+
+
+
+<!---------------------------------------------------------------------------------TABLA: ------------------------------------------------------------>
+
+<div  class="col-4 mt-4">
+
+  <table id="table" class="table">
+  <thead>
+
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Apellido</th>
+      <th scope="col">Usuario</th>
+      <th scope="col">Ciudad</th>
+      <th scope="col">provincia</th>
+    </tr>
+
+  </thead>
+
+
+
+
+<tbody class="lista">
+
+
+    <tr>
+      <td></td>
+    </tr>
+
+
+
+
+  </tbody>
+</table>
+
+
+</div>
+<!---------------------------------------------------------------------------------FIN TABLA: ------------------------------------------------------------>
+
+
+
+
+
+
+
+
+
+<script>
+
+
+
+  let deleteItem = document.getElementById('botonDelete');
+  let addItems = document.querySelector('.formPersona'); 
+  
+let personaList = document.querySelector('.lista');
+
+  let personas = JSON.parse(localStorage.getItem('personas')) || []; 
+
+
+
+
+
+  function addPersona(e) {
+    e.preventDefault();
+    let nombre = (this.querySelector('[name=nombre]')).value;
+    let apellido = (this.querySelector('[name=apellido]')).value;
+    let usuario = (this.querySelector('[name=usuario]')).value;
+    let provincia = (this.querySelector('[name=provincia]')).value;
+    let ciudad = (this.querySelector('[name=ciudad]')).value;
+
+
+    let persona = {
+      nombre,
+      apellido,
+      usuario,
+      provincia,
+      ciudad,
+      done: false
+    };
+
+    personas.push(persona);
+    crearLista(personas, personaList);
+    localStorage.setItem('personas', JSON.stringify(personas));
+
+    this.reset();
+  };
+
+
+
+  function deletePersona() {
+
+  localStorage.clear();
+    };
+
+
+
+  function crearLista(personas = [], personaList) {
+    personaList.innerHTML = personas.map((persona, i) => {
+      return `
+      <tr>
+         <th scope="row">${i+1}</th>
+        <td>
+         
+         ${persona.nombre}
+        
+        </td>
+         <td>
+         
+         ${persona.apellido}
+        
+        </td>
+
+         <td>
+         
+         ${persona.usuario}
+        
+        </td>
+
+         <td>
+         
+         ${persona.ciudad}
+        
+        </td>
+
+         <td>
+         
+         ${persona.provincia}
+        
+        </td>
+
+        <tr>
+
+      `;
+    }).join('');
+  }
+
+
+
+
+  addItems.addEventListener('submit', addPersona);
+  deleteItem.addEventListener('reset', deletePersona);  
+//  addItems.addEventListener('reset', deletePersona);
+
+
+
+  crearLista(personas, personaList);
+
+
+</script>
+</body>
+</html>
